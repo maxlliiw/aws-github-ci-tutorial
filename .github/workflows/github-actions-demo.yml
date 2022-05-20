@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cypress run
-        uses: maxlliiw/aws-github-ci-tutorial/gui/
+        uses: maxlliiw/aws-github-ci-tutorial/gui
         with:
           build: npm run build
           start: npm run dev
