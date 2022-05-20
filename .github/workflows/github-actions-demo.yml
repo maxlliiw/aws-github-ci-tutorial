@@ -1,13 +1,33 @@
-name: Cypress Tests
+name: ALFRED CI - GUI
+# temporary comment for new commit
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
 
 jobs:
-  cypress-run:
+  build-nodejs:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    defaults:
+      run:
+        working-directory: ./gui
+
     steps:
-      - name: Cypress run
-        uses: maxlliiw/aws-github-ci-tutorial/gui
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-          build: npm run build
-          start: npm run dev
+          node-version: ${{ matrix.node-version }}
+
+      # Verify GUI builds successfully
+      - run: npm run build
+      - run: npm run dev
